@@ -1,7 +1,7 @@
-######################################
-# TANK GAME                          #
-# BY TREVOR WYSONG AND JAMES CURLEY  #
-#######################################
+########################
+# TANK GAME            #
+# BY TREVOR AND JAMES  #
+########################
 ###############
 # HOW TO PLAY #
 ###############
@@ -9,7 +9,6 @@
 # Use 'w', 'a', 's', 'd' to move tank in different directions  #
 # Use arrow keys to rotate top of tank                         #
 # Use space to fire projectiles                                #
-# Can only fire shots between time intervals                   #
 # Powerups are teleport and health                             #
 # Kill 10enemies to win game; 3 random maps                    #
 # Avoid hitting enemies or their projectiles                   #
@@ -32,11 +31,9 @@ WEAPON_SCALING = .05
 ENEMY_PROJECTILE_SCALING = 0.3
 ENEMY_SCALING = .25
 COUNTER = 0
-PLAYERUP_SCALING = .06
 
 def spawnEnemyAttributes(self, enemy, enemyList):
-    path = pathlib.Path.cwd() / "Assets" / "enemyTank.png"
-    enemy = Enemy("Tank", 10, 2, path)
+    enemy = Enemy("Tank", 10, 2, "Assets/enemyTank.png")
     x_spawn_list = [200, 500, 775, 800, 1075, 1100]
     y_spawn_list = [300, 350, 400, 450, 500, 550, 600]
     enemy.center_x = random.choice(x_spawn_list)
@@ -51,6 +48,118 @@ def spawnEnemyAttributes(self, enemy, enemyList):
     if enemy.angle == 270:
         enemy.change_x = -1
     enemyList.append(enemy)
+
+def node(index, key, mapList, graph):
+    if mapList[index] == key and mapList[index - 40] == key:
+        #newNode.down()
+        pass
+    if mapList[index] == key and mapList[index + 40] == key:
+        #newNode.up()
+        pass
+
+    if mapList[index] == key and mapList[index - 1] == key:
+        #newNode.left()
+        pass
+    if mapList[index] == key and mapList[index + 1] == key:
+        pass
+        #newNode.right()
+
+def floodFill(loc, map, graph):
+    if loc[1]> 0 and graph[loc[1]-1][loc[2]] != None:
+        if loc[1] > 0 and graph [loc[1] - 1][loc[2]] == None:
+            newNode = node()
+            graph[loc[1] - 1][loc[2]] = newNode
+            newNode.Right = graph[loc[1]][loc[2]]
+            graph[loc[1]][loc[2]].left = newNode
+            floodFill((loc[1] - 1, loc[2]), map, graph)
+
+map1 = """
+0000000000000000000000000000000000000000
+0000000000000000000000000000000000000000
+0033333333333333333333333333333333333300
+0033333333333333333333333333333333333300
+0033333333333333330000333333333333333300
+0033333333333333330000333333333333333300
+0033333333333333300000033333333333333300
+0033333333333333300000033333333333333300
+0033333333333333300000033333333333333300
+0033333300000333333333333330000033333300
+0033333300000333333333333330000033333300
+0033333300000333333333333330000033333300
+0033333300000333333333333330000033333300
+0033333333333333333333333333333333333300
+0033333333333333330000333333333333333300
+0033333333333333333003333333333333333300
+0033333333333333333003333333333333333300
+0033333333333333333333333333333333333300
+0033333333333333333333333333333333333300
+0033333333333333333333333333333333333300
+0000000000000000000000000000000000000000
+0000000000000000000000000000000000000000
+"""
+print(map1)
+map1List = map1.split("\n")
+map1List.remove('')
+map1ListTest = []
+print(map1List)
+row = 0
+column = 0
+for row in range(22):
+    for column in range(40):
+        map1ListTest.append(map1List[row][column])
+        print(map1List[row][column])
+print(map1ListTest)
+
+map2 = """
+3333333333333333333333333333333333333333
+3333333333333333333333333333333333333333
+3300000000000000000000000000000000000033
+3300000000000000000000000000000000000033
+3300000000000000000000000000000000000033
+3300000013131000013131000013131000000033
+3300000034443000034443000034443000000033
+3300000014441000014441000014441000000033
+3300000031313000031313000031313000000033
+3300000000000000000000000000000000000033
+3300000000000000000000000000000000000033
+3300000000000000000000000000000000000033
+3300000000000000000000000000000000000033
+3300000013131000013131000013131000000033
+3300000034443000034443000034443000000033
+3300000014441000014441000014441000000033
+3300000031313000031313000031313000000033
+3300000000000000000000000000000000000033
+3300000000000000000000000000000000000033
+3300000000000000000000000000000000000033
+3333333333333333333333333333333333333333
+3333333333333333333333333333333333333333
+"""
+
+map3 = """
+0000000000000000000000000000000000000000
+0000000000000000000000000000000000000000
+0022222222222222222222222222222222222200
+0022222222222222222222222222222222222200
+0022222200002222220000222222000022222200
+0022222200002222220000222222000022222200
+0022222200002222220000222222000022222200
+0022222222222222222222222222222222222200
+0022222222222222222222222222222222222200
+0022222200002222222222222222000022222200
+0022222200002222222222222222000022222200
+0022222200002222222222222222000022222200
+0022222200002222222222222222000022222200
+0022222222222222222222222222222222222200
+0022222222222222222222222222222222222200
+0022222200002222220000222222000022222200
+0022222200002222220000222222000022222200
+0022222200002222220000222222000022222200
+0022222222222222222222222222222222222200
+0022222222222222222222222222222222222200
+0000000000000000000000000000000000000000
+0000000000000000000000000000000000000000
+"""
+
 
 def spawnEnemy(self, score, playerSprite, enemyList, enemy, projectileList):
     spawn_enemy_sound = arcade.sound.load_sound(pathlib.Path.cwd() / 'Assets' / 'Sounds' / 'spawn.wav')
@@ -249,7 +358,10 @@ class Project2Window(arcade.Window):
         self.enemy_list.append(self.enemy3)
         self.enemy3.center_x = 100
         self.enemy3.center_y = 100
-        self.allLists = None
+        self.upNode = None
+        self.downNode = None
+        self.leftNode = None
+        self.rightNode = None
 
     def setup(self):
         ########################
@@ -274,7 +386,6 @@ class Project2Window(arcade.Window):
         ######################
         self.plist = arcade.SpriteList()
         self.wlist = arcade.SpriteList()
-        self.allSprites = arcade.SpriteList()
         self.walls.update()
         self.projectilelist = arcade.SpriteList()
         self.enemyprojectilelist = arcade.SpriteList()
@@ -293,8 +404,7 @@ class Project2Window(arcade.Window):
         self.simple_Physics_Weapon = arcade.PhysicsEngineSimple(self.weapon, self.walls)
         self.simple_Physics_Crate = arcade.PhysicsEngineSimple(self.crate, self.walls)
         self.simple_Physics_Enemy = arcade.PhysicsEngineSimple(self.enemy, self.walls)
-        self.pathTele = pathlib.Path.cwd() / "Assets" /"frame 3.png"
-        self.teleportPowerup = powerUp("Teleport", self.pathTele)
+        self.teleportPowerup = powerUp("Teleport", "Assets/frame 3.png")
         self.teleportPowerup.center_x = 200
         self.teleportPowerup.center_y = 200
         self.powerUpList = arcade.SpriteList()
@@ -302,13 +412,12 @@ class Project2Window(arcade.Window):
         self.total_time = 0.0
         self.projectile_time = 0.0
         self.counter = 0.0
-        self.x_spawn_list = [200, 500, 775, 800, 1075, 1100]
-        self.y_spawn_list = [300, 350, 400, 450, 500, 550, 600]
         #self.timeList = [0, 15, 30, 45, 60, 75, 90, 105, 115, 130, 145, 160, 175, 190, 205]
         self.timeList = []
         self.timeBool = False
         self.angleBool = False
         self.gameOver = False
+
         self.gameOver2 = False
         self.winChecker = False
         self.teleportList1 = [195, 495, 780, 795, 1070, 1095]
@@ -320,10 +429,9 @@ class Project2Window(arcade.Window):
 
         self.enemyAnim = arcade.AnimatedWalkingSprite()
         self.enemyAnim.stand_right_textures = []
-        self.pathRun = pathlib.Path.cwd() / "Assets"/ "EnemyRun"/"run001.png"
-        self.enemyAnim.stand_right_textures.append(arcade.load_texture(self.pathRun))
+        self.enemyAnim.stand_right_textures.append(arcade.load_texture("Assets/EnemyRun/run001.png"))
         self.enemyAnim.stand_left_textures = []
-        self.enemyAnim.stand_left_textures.append(arcade.load_texture(self.pathRun, mirrored=True))
+        self.enemyAnim.stand_left_textures.append(arcade.load_texture("Assets/EnemyRun/run001.png", mirrored=True))
         self.enemyAnim.walk_right_textures = []
         self.enemyAnim.walk_right_textures.append(arcade.load_texture(pathlib.Path.cwd() / 'Assets'/ 'EnemyRun' / 'run001.png'))
         self.enemyAnim.walk_right_textures.append(arcade.load_texture(pathlib.Path.cwd() / 'Assets'/ 'EnemyRun' / 'run002.png'))
@@ -348,31 +456,11 @@ class Project2Window(arcade.Window):
         self.simple_Physics_Enemy = arcade.PhysicsEngineSimple(self.enemyAnim, self.walls)
         self.allSprites = arcade.SpriteList()
 
-        ##########################
-        #       ANIM SPRITE      #
-        ###########################
-        coin = arcade.AnimatedTimeSprite(PLAYERUP_SCALING)
-        path = pathlib.Path.cwd() / "Assets" / "powerupAnim" / "frame 1.png"
-        #coin = powerUp("Teleport", path)
-        coin.center_x = random.choice(self.x_spawn_list)
-        coin.center_y = random.choice(self.y_spawn_list)
-        coin.textures = []
-        coin.textures.append(arcade.load_texture(pathlib.Path.cwd() / 'Assets'/ 'powerupAnim'/'frame 1.png'))
-        coin.textures.append(arcade.load_texture(pathlib.Path.cwd() / 'Assets'/ 'powerupAnim'/'frame 2.png'))
-        coin.textures.append(arcade.load_texture(pathlib.Path.cwd() / 'Assets'/ 'powerupAnim'/'frame 3.png'))
-        coin.textures.append(arcade.load_texture(pathlib.Path.cwd() / 'Assets'/ 'powerupAnim'/'frame 4.png'))
-        coin.textures.append(arcade.load_texture(pathlib.Path.cwd() / 'Assets'/ 'powerupAnim'/'frame 5.png'))
-        coin.textures.append(arcade.load_texture(pathlib.Path.cwd() / 'Assets'/ 'powerupAnim'/'frame 6.png'))
-        #coin.cur_texture_index = random.randrange(len(coin.textures))
-        self.powerUpList.append(coin)
-        self.allSprites.append(coin)
-
     ##############################
     # CHECK FOR CRATE COLLISIONS #
     ##############################
     def crateMovement(self):
         if arcade.check_for_collision(self.player, self.crate) == True:
-            print("Crate)")
             self.crate.change_y = self.player.change_y + .15
             self.crate.change_x = self.player.change_x + .15
         elif arcade.check_for_collision(self.player, self.crate) == False:
@@ -442,8 +530,6 @@ class Project2Window(arcade.Window):
         self.projectilelist.update()
         self.enemyprojectilelist.update()
         self.powerUpList.update()
-        self.allSprites.update()
-        self.allSprites.update_animation()
         self.simple_Physics_Player.update()
         self.simple_Physics_Weapon.update()
         self.simple_Physics_Crate.update()
@@ -455,22 +541,51 @@ class Project2Window(arcade.Window):
         self.frames_elapsed = int(self.total_time * 60)
         randomShoot(self, self.enemy_list, self.enemyprojectilelist)
         spawnEnemy(self, self.score, self.player, self.enemy_list, self.enemy, self.projectilelist)
-        #Collision from enemy to enemy
-        colList = []
+        print("y = ", self.player.center_y)
+        print("x = ", self.player.center_x)
+
         for i in range(len(self.enemy_list)):
-            colList = arcade.check_for_collision_with_list(self.enemy_list[i], self.enemy_list)
+            if self.enemy_list[i].center_x < self.player.center_x:
+                self.enemy_list[i].change_x += .004
+                self.enemy_list[i].angle = 90
+            elif self.enemy_list[i].center_x > self.player.center_x:
+                self.enemy_list[i].change_x -= .004
+                self.enemy_list[i].angle = 180
+            if self.enemy_list[i].center_y < self.player.center_y:
+                self.enemy_list[i].change_y += .004
+                self.enemy_list[i].angle = 270
+            elif self.enemy_list[i].center_y > self.player.center_y:
+                self.enemy_list[i].change_y -= .004
+                if self.enemy_list[i].center_y - self.player.center_y < 100:
+                    self.enemy_list[i].angle = 360
+                    print("angle changed")
 
-        if len(colList) > 0:
-            self.enemy_list[i].kill()
-            self.enemy.kill()
 
-        playerPowerUp_list = \
-            arcade.check_for_collision_with_list(self.player,
-                                                 self.allSprites)
-        for coin in playerPowerUp_list:
-            coin.kill()
-            self.player.health += 20
-            self.health_sound.play()
+        ### ANGLE ACCOMODATION NOT WORKING AS WELL###
+
+        # for i in range(len(self.enemy_list)):
+        #
+        #     if self.enemy_list[i].center_x < self.player.center_x:
+        #         self.enemy_list[i].change_x += .005
+        #         if (self.player.center_x - self.enemy_list[i].center_x) > (self.player.center_y - self.enemy_list[i].center_y):
+        #             self.enemy_list[i].angle = 90 #right
+        #             print("Angle right")
+        #     elif self.enemy_list[i].center_x > self.player.center_x:
+        #         self.enemy_list[i].change_x -= .005
+        #         if abs(self.player.center_x - self.enemy_list[i].center_x) > abs(self.player.center_y - self.enemy_list[i].center_y):
+        #             self.enemy_list[i].angle = 270 #left
+        #             print("Angle left")
+        #     elif self.enemy_list[i].center_y < self.player.center_y:
+        #         self.enemy_list[i].change_y += .005
+        #         if abs(self.player.center_y - self.enemy_list[i].center_y) > abs(self.player.center_x - self.enemy_list[i].center_x):
+        #             self.enemy_list[i].angle = 180  # up
+        #             print("Angle up")
+        #     elif self.enemy_list[i].center_y > self.player.center_y:
+        #         self.enemy_list[i].change_y -= .005
+        #         if abs(self.player.center_y - self.enemy_list[i].center_y) > abs(self.player.center_x - self.enemy_list[i].center_x):
+        #             self.enemy_list[i].angle = 0  # down
+        #             print("Angle down")
+
 
         hit_list2 = \
             arcade.check_for_collision_with_list(self.player, self.enemy_list)
@@ -489,7 +604,6 @@ class Project2Window(arcade.Window):
             self.weapon.kill()
             self.player.kill()
 
-
         # for i in range(len(self.enemyprojectilelist)-1):
         #     if (self.enemyprojectilelist[i].center_x < 80 or self.enemyprojectilelist[i].center_x > 1200 or
         #         self.enemyprojectilelist[i].center_y < 80 or self.enemyprojectilelist[i].center_y > 700):
@@ -505,8 +619,6 @@ class Project2Window(arcade.Window):
                 death_sound = arcade.sound.load_sound(pathlib.Path.cwd() / 'Assets' / 'Sounds' / 'death.wav')
                 death_sound.play()
                 self.score += 10
-        print(len(self.enemy_list))
-        print(self.score)
 
         ################################
         # RANDOMLY CHANGE ENEMY ANGLES #
@@ -524,8 +636,6 @@ class Project2Window(arcade.Window):
                                 self.enemy_list[i].change_y = .2
                             if self.enemy_list[i].angle == 270:
                                 self.enemy_list[i].change_x = -.2
-        print (self.frames_elapsed)
-        print(self.total_time1)
 
         #################
         # SPAWN ON TIME #
@@ -581,7 +691,6 @@ class Project2Window(arcade.Window):
                     self.teleportPowerup.kill()
                     self.teleport_sound.play()
 
-
                 elif self.powerUpList[i].getName() == "Health":
                     if arcade.check_for_collision(self.player, self.powerUpList[i]) == True:  # checkscol with speed powerup
                         # print("Col with health works!")
@@ -589,7 +698,6 @@ class Project2Window(arcade.Window):
                         self.powerUpList[i].kill()
                         self.health_sound.play()
 
-        print(len(self.powerUpList))
         self.changelist = ["x", "y"]
         self.directionlist = [-1, 1]
         if random.choice(self.changelist) == 'x':
@@ -617,7 +725,6 @@ class Project2Window(arcade.Window):
         self.enemyprojectilelist.draw()
         self.crate.draw()
         self.powerUpList.draw()
-        self.allSprites.draw()
 
         # Put the text on the screen.
         playerHealth = f"Health: {self.player.health}"
@@ -632,7 +739,6 @@ class Project2Window(arcade.Window):
             gameLost = f"Game Over!"
             arcade.draw_text(gameLost, 400, 352,
                          arcade.csscolor.RED, 80)
-
             if self.gameOver2 == False:
                 game_loss_sound = arcade.sound.load_sound(pathlib.Path.cwd() / 'Assets' / 'Sounds' / 'game over.wav')
                 game_loss_sound.play()
@@ -731,7 +837,9 @@ class Project2Window(arcade.Window):
         #         textures.append(frame)
         #     print(textures)
         #     self.health_sprite.textures = textures
-        #     self.health_list.append(self.health_sprite)
+        #     self.heal
+        #
+        #     th_list.append(self.health_sprite)
         #     return self.health_list
 
 if __name__ == '__main__':
